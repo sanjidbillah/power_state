@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:power_state/src/power_state.dart';
 import 'package:power_state/src/power_controller.dart';
+import 'package:power_state/src/utilities/printer.dart';
 
 class PowerBuilder<T extends PowerController> extends StatefulWidget {
   final Widget Function(T controller) builder;
@@ -15,19 +16,19 @@ class PowerBuilder<T extends PowerController> extends StatefulWidget {
 
 class _State<T extends PowerController> extends State<PowerBuilder<T>> {
   late T controller;
-  final _key = DateTime.now().microsecondsSinceEpoch;
+  late final _uniqueKey = identityHashCode(widget);
   @override
   void initState() {
     super.initState();
     controller = PowerVault.find<T>();
-    controller.powerNotifier.addListener(_key, () {
+    controller.powerNotifier.addListener(_uniqueKey, () {
       if (mounted) setState(() {});
     });
   }
 
   @override
   void dispose() {
-    controller.powerNotifier.removeListener(_key);
+    controller.powerNotifier.removeListener(_uniqueKey);
     super.dispose();
   }
 
