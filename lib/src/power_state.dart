@@ -1,5 +1,7 @@
+import 'package:power_state/src/utilities/printer.dart';
+
 class PowerState {
-  static T put<T>(T dependency) => _Instance().put(dependency);
+  static T put<T>(T dependency) => _Instance().put<T>(dependency);
 
   static T find<T>() => _Instance().find<T>();
 
@@ -15,9 +17,7 @@ class _Instance {
 
   static final Map<String, _InstanceModel> _store = {};
 
-  T put<T>(
-    T dependency,
-  ) {
+  T put<T>(T dependency) {
     _store.putIfAbsent(T.toString(), () => _InstanceModel<T>(dependency));
     return find<T>();
   }
@@ -28,19 +28,18 @@ class _Instance {
     if (info?.value != null) {
       return info!.value;
     } else {
-      throw '$T"controller not found.';
+      throw '$T controller not found.';
     }
   }
 
   bool delete<T>() {
-    final newKey = T.toString();
-    if (!_store.containsKey(newKey)) {
-      print('$newKey controller already removed.');
+    final controller = T.toString();
+    if (!_store.containsKey(controller)) {
+      printer('$controller controller already removed.');
       return false;
     }
-
-    _store.remove(newKey);
-    print('$newKey controller deleted.');
+    _store.remove(controller);
+    printer('$controller controller deleted.');
     return true;
   }
 }

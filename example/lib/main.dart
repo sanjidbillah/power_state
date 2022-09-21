@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => SecondScreen(),
+                    builder: (_) => const SecondScreen(),
                   ),
                 );
               },
@@ -67,8 +67,7 @@ class _HomeState extends State<Home> {
 }
 
 class SecondScreen extends StatelessWidget {
-  SecondScreen({super.key});
-  final CounterController controller = PowerState.put(CounterController());
+  const SecondScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -89,17 +88,6 @@ class SecondScreen extends StatelessWidget {
               builder: (countController) {
                 return Text(countController.number.toString());
               },
-            ),
-            PowerBuilder<CounterController>(
-              builder: (countController) {
-                return Text(countController.number.toString());
-              },
-            ),
-            ElevatedButton(
-              onPressed: () {
-                controller.increment();
-              },
-              child: const Text("Increment"),
             ),
           ],
         ),
