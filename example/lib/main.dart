@@ -25,7 +25,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final CounterController controller = PowerState.put(CounterController());
+  final CounterController controller = PowerVault.put(CounterController());
 
   @override
   Widget build(BuildContext context) {

@@ -19,7 +19,7 @@ class _State<T extends PowerController> extends State<PowerBuilder<T>> {
   @override
   void initState() {
     super.initState();
-    controller = PowerState.find<T>();
+    controller = PowerVault.find<T>();
     controller.powerNotifier.addListener(_key, () {
       if (mounted) setState(() {});
     });

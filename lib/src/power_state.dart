@@ -1,6 +1,6 @@
 import 'package:power_state/src/utilities/printer.dart';
 
-class PowerState {
+class PowerVault {
   static T put<T>(T dependency) => _Instance().put<T>(dependency);
 
   static T find<T>() => _Instance().find<T>();

@@ -8,7 +8,7 @@ void main() {
   testWidgets(
     'Widgets update when the model notifies the listeners',
     (WidgetTester tester) async {
-      final TestController controller = PowerState.put(TestController());
+      final TestController controller = PowerVault.put(TestController());
       // Starts out at the initial value
       await tester.pumpWidget(const TestWidget());
       await tester.pumpAndSettle();
