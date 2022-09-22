@@ -33,13 +33,13 @@ Then you can use powerBuilder widget in your UI side
             ),
 ```   
 
-// You can find a Controller that is being used by another page and redirect you to it.
+You can find a Controller that is being used by another page and redirect you to it.
 
 ```
 final CounterController countController = PowerVault.find();
 ```  
 
-// You can delete a Controller.
+You can delete a Controller.
 
 ```
 PowerVault.delete<CounterController>();
@@ -58,6 +58,7 @@ PowerSelector<CounterController>(
  ),
 ``` 
 
+Last play with example code
 
 
 
