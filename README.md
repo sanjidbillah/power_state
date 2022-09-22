@@ -46,7 +46,7 @@ PowerVault.delete<CounterController>();
 ```  
 
 # PowerSelector Widget
-PowerSelector allows you to select a specific value in a Provider to listen to. Then when and only when that selected value changes, the widget that returns by the builder method of Selector will rebuild.
+PowerSelector allows you to select a specific value listen to. Then when and only when that selected value changes, the widget that returns by the builder method of Selector will rebuild.
 
 ```
 PowerSelector<CounterController>(

@@ -81,20 +81,4 @@ void main() {
       expect(find.text('2'), findsOneWidget);
     },
   );
-
-  test(
-    "Test controller lifecycle",
-    () {
-      final TestController controller = PowerVault.put(TestController());
-      expect(controller.counter, 1);
-
-      controller.increment();
-
-      final TestController controller2 = PowerVault.put(TestController());
-      expect(controller2.counter, 2);
-      PowerVault.delete<TestController>();
-      final TestController controller3 = PowerVault.put(TestController());
-      expect(controller3.counter, 1);
-    },
-  );
 }
