@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:power_state/src/power_state.dart';
-import 'package:power_state/src/power_controller.dart';
 
-class PowerBuilder<T extends PowerController> extends StatefulWidget {
+import '../power_state.dart';
+
+class PowerSelector<T extends PowerController> extends StatefulWidget {
   final Widget Function(T controller) builder;
-  const PowerBuilder({
+  final Object Function() selector;
+
+  const PowerSelector({
     Key? key,
     required this.builder,
+    required this.selector,
   }) : super(key: key);
 
   @override
-  State<PowerBuilder<T>> createState() => _State<T>();
+  State<PowerSelector<T>> createState() => _State<T>();
 }
 
-class _State<T extends PowerController> extends State<PowerBuilder<T>> {
+class _State<T extends PowerController> extends State<PowerSelector<T>> {
   late T controller;
   late final _uniqueKey = identityHashCode(widget);
   @override
@@ -23,6 +26,7 @@ class _State<T extends PowerController> extends State<PowerBuilder<T>> {
     controller.powerNotifier.addListener(_uniqueKey, () {
       if (mounted) setState(() {});
     });
+    controller.powerNotifier.selector(_uniqueKey, widget.selector);
   }
 
   @override

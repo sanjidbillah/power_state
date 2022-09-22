@@ -1,10 +1,16 @@
 import 'package:power_state/power_state.dart';
 
 class CounterController extends PowerController {
-  int number = 1;
+  int selectorValue = 1;
+  int count = 1;
 
   increment() {
-    number++;
+    count++;
+    notifyListeners();
+  }
+
+  update() {
+    selectorValue++;
     notifyListeners();
   }
 }

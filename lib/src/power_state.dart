@@ -28,7 +28,7 @@ class _Instance {
     if (info?.value != null) {
       return info!.value;
     } else {
-      throw '$T controller not found.';
+      throw Exception('$T controller not found.');
     }
   }
 
