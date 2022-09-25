@@ -1,5 +1,5 @@
 
-A Flutter Statement solution with [dependency injection]
+A Flutter State Management solution with [dependency injection]
 
 ## Usage
 
