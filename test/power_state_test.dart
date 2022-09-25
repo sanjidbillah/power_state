@@ -32,6 +32,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('2'), findsOneWidget);
+      PowerVault.delete<TestController>();
     },
   );
 
@@ -53,9 +54,9 @@ void main() {
 
       // Call Increment which should notify the children to rebuild
       controller.updateSelctorValue();
-      await tester.pumpAndSettle();
 
       expect(find.text('1'), findsOneWidget);
+      PowerVault.delete<TestController>();
     },
   );
 
@@ -77,9 +78,9 @@ void main() {
 
       // Call Increment which should notify the children to rebuild
       controller.updateSelctorValue();
-      await tester.pumpAndSettle();
 
-      expect(find.text('2'), findsOneWidget);
+      expect(find.text('1'), findsOneWidget);
+      PowerVault.delete<TestController>();
     },
   );
 
@@ -94,5 +95,6 @@ void main() {
     final TestController controller3 =
         PowerVault.put<TestController>(TestController());
     expect(controller3.counter, 1);
+    PowerVault.delete<TestController>();
   });
 }
