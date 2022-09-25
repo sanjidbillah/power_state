@@ -8,7 +8,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class Home extends StatelessWidget {
   // Put your controlller
   final CounterController controller = PowerVault.put(CounterController());
 
-  Home({super.key});
+  Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class Home extends StatelessWidget {
 
 class SecondScreen extends StatelessWidget {
   final CounterController controller = PowerVault.find();
-  SecondScreen({super.key});
+  SecondScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +131,7 @@ class SecondScreen extends StatelessWidget {
 }
 
 class PushToDeleteCheckScreen extends StatefulWidget {
-  const PushToDeleteCheckScreen({super.key});
+  const PushToDeleteCheckScreen({Key? key}) : super(key: key);
 
   @override
   State<PushToDeleteCheckScreen> createState() =>

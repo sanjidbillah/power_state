@@ -58,7 +58,7 @@ PowerSelector<CounterController>(
  ),
 ``` 
 
-Last play with example code
+Play with example code
 
 
 

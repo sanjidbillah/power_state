@@ -58,4 +58,41 @@ void main() {
       expect(find.text('1'), findsOneWidget);
     },
   );
+
+  testWidgets(
+    'Selector rebuild check with dynamic value',
+    (WidgetTester tester) async {
+      final TestController controller = PowerVault.put(TestController());
+      // Starts out at the initial value
+      await tester.pumpWidget(MaterialApp(
+        home: Material(
+          child: PowerSelector<TestController>(
+            selector: () => controller.selectorValue,
+            builder: (testController) => Text(
+              testController.selectorValue.toString(),
+            ),
+          ),
+        ),
+      ));
+
+      // Call Increment which should notify the children to rebuild
+      controller.updateSelctorValue();
+      await tester.pumpAndSettle();
+
+      expect(find.text('2'), findsOneWidget);
+    },
+  );
+
+  test('Controller lifeCycle', () {
+    final TestController controller = PowerVault.put(TestController());
+    expect(controller.counter, 1);
+    controller.increment();
+    expect(controller.counter, 2);
+    final TestController controller2 = PowerVault.put(TestController());
+    expect(controller2.counter, 2);
+    PowerVault.delete<TestController>();
+    final TestController controller3 =
+        PowerVault.put<TestController>(TestController());
+    expect(controller3.counter, 1);
+  });
 }
