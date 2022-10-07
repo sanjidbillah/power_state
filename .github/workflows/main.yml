@@ -3,9 +3,9 @@ name: build
 # Trigger the workflow on push or pull request
 on:
   push:
-    branches: [main]
+    branches: [main,dev]
   pull_request:
-    branches: [main]
+    branches: [main,dev]
 #A workflow run is made up of one or more jobs. Jobs run in parallel by default.
 jobs:
   test:
@@ -29,6 +29,13 @@ jobs:
       #- run: flutter analyze
       # run  flutter widgets tests  and unit tests
       - run: flutter test --coverage
-      # Upload coverage reports to Codecov
-      # https://github.com/marketplace/actions/codecov
-      # - uses: codecov/codecov-action@v1.0.7
+      - name: Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
+        with:
+          path: coverage/lcov.info
+          min_coverage: 80
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
