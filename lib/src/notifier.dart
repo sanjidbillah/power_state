@@ -33,7 +33,7 @@ class PowerNotifier extends _ListenAble {
   }
 
   selector(int key, Function dependency) {
-    int value = dependency.call();
+    dynamic value = dependency.call();
     _selectors.putIfAbsent(
       key,
       () => {'currentValue': value, 'prevValue': value, 'selector': dependency},
