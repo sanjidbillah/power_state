@@ -23,15 +23,19 @@ class _State<T extends PowerController> extends State<PowerSelector<T>> {
   void initState() {
     super.initState();
     controller = PowerVault.find<T>();
-    controller.powerNotifier.addListener(_uniqueKey, () {
-      if (mounted) setState(() {});
+    controller.addListener(_uniqueKey, () {
+      if (mounted) _valueChanged();
     });
-    controller.powerNotifier.selector(_uniqueKey, widget.selector);
+    controller.addSelector(_uniqueKey, widget.selector);
+  }
+
+  void _valueChanged() {
+    setState(() {});
   }
 
   @override
   void dispose() {
-    controller.powerNotifier.removeListener(_uniqueKey);
+    controller.removeListener(_uniqueKey);
     super.dispose();
   }
 

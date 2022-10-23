@@ -4,6 +4,9 @@ abstract class _ListenAble {
   /// Register a closure to be called when the object notifies its listeners.
   void addListener(int key, VoidCallback listener);
 
+  /// Register a closure to be called when the object notifies its listeners.
+  void addSelector(int key, Function dependency);
+
   /// Remove a previously registered closure from the list of closures that the
   /// object notifies.
   void removeListener(int key);
@@ -14,10 +17,10 @@ abstract class _ListenAble {
   /// object may have changed. Listeners that are added during this iteration
   /// will not be visited. Listeners that are removed during this iteration will
   /// not be visited after they are removed.
-  void notify();
+  void notifyListeners();
 }
 
-class PowerNotifier extends _ListenAble {
+class PowerController extends _ListenAble {
   final Map _listeners = {};
   final Map _selectors = {};
   bool _debugDisposed = false;
@@ -32,12 +35,14 @@ class PowerNotifier extends _ListenAble {
     _selectors.remove(key);
   }
 
-  selector(int key, Function dependency) {
+  @override
+  addSelector(int key, Function dependency) {
     dynamic value = dependency.call();
-    _selectors.putIfAbsent(
-      key,
-      () => {'currentValue': value, 'prevValue': value, 'selector': dependency},
-    );
+    _selectors[key] = {
+      'currentValue': value,
+      'prevValue': value,
+      'selector': dependency
+    };
   }
 
   /// Call all the registered listeners.
@@ -47,7 +52,7 @@ class PowerNotifier extends _ListenAble {
   /// will not be visited. Listeners that are removed during this iteration will
   /// not be visited after they are removed.
   @override
-  void notify() {
+  void notifyListeners() {
     if (_listeners.isEmpty) return;
     _listeners.forEach(
       (key, value) {
@@ -59,7 +64,7 @@ class PowerNotifier extends _ListenAble {
   // This is static and not an instance method because too many people try to
   // implement ChangeNotifier instead of extending it (and so it is too breaking
   // to add a method, especially for debug).
-  static bool debugAssertNotDisposed(PowerNotifier notifier) {
+  static bool debugAssertNotDisposed(PowerController notifier) {
     assert(() {
       if (notifier._debugDisposed) {
         throw Exception(
@@ -90,7 +95,7 @@ class PowerNotifier extends _ListenAble {
   }
 
   dispose() {
-    assert(PowerNotifier.debugAssertNotDisposed(this));
+    assert(PowerController.debugAssertNotDisposed(this));
     assert(() {
       _debugDisposed = true;
       return true;

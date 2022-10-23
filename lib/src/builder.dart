@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:power_state/src/power_state.dart';
-import 'package:power_state/src/power_controller.dart';
+// import 'package:power_state/src/power_state.dart';
+// import 'package:power_state/src/power_controller.dart';
+
+import '../power_state.dart';
 
 class PowerBuilder<T extends PowerController> extends StatefulWidget {
   final Widget Function(T controller) builder;
@@ -20,14 +22,18 @@ class _State<T extends PowerController> extends State<PowerBuilder<T>> {
   void initState() {
     super.initState();
     controller = PowerVault.find<T>();
-    controller.powerNotifier.addListener(_uniqueKey, () {
-      if (mounted) setState(() {});
+    controller.addListener(_uniqueKey, () {
+      if (mounted) _valueChanged();
     });
+  }
+
+  void _valueChanged() {
+    setState(() {});
   }
 
   @override
   void dispose() {
-    controller.powerNotifier.removeListener(_uniqueKey);
+    controller.removeListener(_uniqueKey);
     super.dispose();
   }
 
