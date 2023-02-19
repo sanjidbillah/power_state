@@ -60,7 +60,7 @@ You can find a Controller that is being used by another page and redirect you to
 final CounterController countController = PowerVault.find();
 ```  
 
-# Deleting a controller
+## Deleting a controller
 
 If you no longer need a controller, you can delete it from PowerVault using the PowerVault.delete<T>() method. Here's an example of deleting the CounterController:
 
