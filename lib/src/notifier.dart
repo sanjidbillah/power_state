@@ -41,7 +41,7 @@ class PowerController extends _ListenAble {
     _selectors[key] = {
       'currentValue': value,
       'prevValue': value,
-      'selector': dependency
+      'selector': dependency,
     };
   }
 

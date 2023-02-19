@@ -1,9 +1,12 @@
 
-A Flutter State Management solution with [dependency injection]
+Power State is a lightweight and flexible state management library for Flutter apps. It provides a simple and easy-to-use API that helps you manage the state of your app in a clean and efficient way. With Power State, you can easily manage your app's state and update your UI in real-time.
 
 ## Usage
 
-Create your business logic class and place all variables, methods inside it.
+# Create a PowerController
+Create a controller class that extends PowerController. This controller class will hold your application's state and provide methods to manipulate it.
+
+Here's an example CounterController class:
 ```
 import 'package:power_state/power_state.dart';
 
@@ -17,21 +20,39 @@ class CounterController extends PowerController {
 }
 ```
 
-Instantiate your class using PowerVault.put(CounterController()) 
+# Store controller
+
+Instantiate your controller class using PowerVault.put() method:
 
 ```
 final CounterController controller = PowerVault.put(CounterController());
 ```
 
-Then you can use powerBuilder widget in your UI side
+# Use PowerBuilder and PowerSelector to access your state
+Use PowerBuilder to listen for changes to your state and rebuild your UI. Use PowerSelector to select a specific value from your state and rebuild only when that value changes.:
 
 ```
- PowerBuilder<CounterController>(
-              builder: (countController) {
-                return Text(countController.count.toString());
-              },
-            ),
+PowerBuilder<CounterController>(
+  builder: (countController) {
+    return Text(countController.count.toString());
+  },
+),
+
+PowerSelector<CounterController>(
+  selector: () => controller.selectorValue,
+  builder: (countController) {
+    return Text(countController.selectorValue.toString());
+  },
+),
+
 ```   
+# Update your state
+Update your state by calling methods on your controller and calling notifyListeners() to rebuild your UI.
+
+```
+controller.increment();
+controller.update();
+```
 
 You can find a Controller that is being used by another page and redirect you to it.
 
@@ -39,29 +60,16 @@ You can find a Controller that is being used by another page and redirect you to
 final CounterController countController = PowerVault.find();
 ```  
 
-You can delete a Controller.
+# Deleting a controller
+
+If you no longer need a controller, you can delete it from PowerVault using the PowerVault.delete<T>() method. Here's an example of deleting the CounterController:
 
 ```
 PowerVault.delete<CounterController>();
 ```  
 
-# PowerSelector Widget
-PowerSelector allows you to select a specific value listen to. Then when and only when that selected value changes, the widget that returns by the builder method of Selector will rebuild.
-
-```
-PowerSelector<CounterController>(
-              <!-- It will listen selectorValue -->
-              selector: () => controller.selectorValue,
-              builder: (countController) {
-                return Text(countController.selectorValue.toString());
-              },
- ),
-``` 
-
-Play with example code
+Check out the example app to see Power State in action.
 
 
 
 
-
-[dependency injection]: https://en.wikipedia.org/wiki/Dependency_injection

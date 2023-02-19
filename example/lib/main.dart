@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
 }
 
 class Home extends StatelessWidget {
-  // Put your controlller
+  // Create an instance of the CounterController and store it in PowerVault
   final CounterController controller = PowerVault.put(CounterController());
 
   Home({Key? key}) : super(key: key);
@@ -34,14 +34,15 @@ class Home extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Normal builder
+            // Example of using a PowerBuilder widget to rebuild the widget tree
+            // when the count value changes
             PowerBuilder<CounterController>(
               builder: (countController) {
                 return Text(countController.count.toString());
               },
             ),
 
-            // Selector with mutable object
+            // Example of using a PowerSelector widget with a mutable selector
             PowerSelector<CounterController>(
               selector: () => controller.selectorValue,
               builder: (countController) {
@@ -49,13 +50,15 @@ class Home extends StatelessWidget {
               },
             ),
 
-            // Selector with immutable object
+            // Example of using a PowerSelector widget with an immutable selector
             PowerSelector<CounterController>(
               selector: () => 2,
               builder: (countController) {
                 return Text(countController.selectorValue.toString());
               },
             ),
+
+            // Buttons to increment the count value and update the widget tree
             ElevatedButton(
               onPressed: () {
                 controller.increment();
@@ -82,6 +85,7 @@ class Home extends StatelessWidget {
 }
 
 class SecondScreen extends StatelessWidget {
+  // Initialize the CounterController to access its state.
   final CounterController controller = PowerVault.find();
   SecondScreen({Key? key}) : super(key: key);
 
@@ -95,23 +99,29 @@ class SecondScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Normal builder
             PowerBuilder<CounterController>(
               builder: (countController) {
                 return Text(countController.count.toString());
               },
             ),
+
+            // Selector with mutable object
             PowerSelector<CounterController>(
               selector: () => controller.selectorValue,
               builder: (countController) {
                 return Text(countController.selectorValue.toString());
               },
             ),
+
             ElevatedButton(
               onPressed: () {
+                // Update the count.
                 controller.increment();
               },
               child: const Text("Update "),
             ),
+
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -134,16 +144,16 @@ class PushToDeleteCheckScreen extends StatefulWidget {
   const PushToDeleteCheckScreen({Key? key}) : super(key: key);
 
   @override
-  State<PushToDeleteCheckScreen> createState() =>
-      _PushToDeleteCheckScreenState();
+  State<PushToDeleteCheckScreen> createState() => _PushToDeleteCheckScreenState();
 }
 
 class _PushToDeleteCheckScreenState extends State<PushToDeleteCheckScreen> {
+  // Declare a new instance of the DateTimeController.
   final DateTimeController controller = PowerVault.put(DateTimeController());
 
   @override
   void dispose() {
-    // When page pop controller will delete
+    // Delete the controller instance when the page is popped.
     PowerVault.delete<DateTimeController>();
     super.dispose();
   }
@@ -158,16 +168,19 @@ class _PushToDeleteCheckScreenState extends State<PushToDeleteCheckScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Use a PowerBuilder to update the UI when the state changes.
             PowerBuilder<DateTimeController>(
               builder: (dateTimeController) {
                 return Text(dateTimeController.currentDate.toString());
               },
             ),
             ElevatedButton(
-                onPressed: () {
-                  controller.updateDate(DateTime(1899));
-                },
-                child: const Text("Update")),
+              onPressed: () {
+                // Update the state of the controller when the button is pressed.
+                controller.updateDate(DateTime(1899));
+              },
+              child: const Text("Update"),
+            ),
           ],
         ),
       ),
