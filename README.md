@@ -1,9 +1,9 @@
 
 Power State is a lightweight and flexible state management library for Flutter apps. It provides a simple and easy-to-use API that helps you manage the state of your app in a clean and efficient way. With Power State, you can easily manage your app's state and update your UI in real-time.
 
-## Usage
+# Usage
 
-# Create a PowerController
+## Step:1 Create a PowerController
 Create a controller class that extends PowerController. This controller class will hold your application's state and provide methods to manipulate it.
 
 Here's an example CounterController class:
@@ -20,7 +20,7 @@ class CounterController extends PowerController {
 }
 ```
 
-# Store controller
+## Step:2 Store controller
 
 Instantiate your controller class using PowerVault.put() method:
 
@@ -28,7 +28,7 @@ Instantiate your controller class using PowerVault.put() method:
 final CounterController controller = PowerVault.put(CounterController());
 ```
 
-# Use PowerBuilder and PowerSelector to access your state
+## Step:3 Use PowerBuilder and PowerSelector to access your state
 Use PowerBuilder to listen for changes to your state and rebuild your UI. Use PowerSelector to select a specific value from your state and rebuild only when that value changes.:
 
 ```
@@ -46,7 +46,7 @@ PowerSelector<CounterController>(
 ),
 
 ```   
-# Update your state
+## Step:4 Update your state
 Update your state by calling methods on your controller and calling notifyListeners() to rebuild your UI.
 
 ```
