@@ -144,7 +144,8 @@ class PushToDeleteCheckScreen extends StatefulWidget {
   const PushToDeleteCheckScreen({Key? key}) : super(key: key);
 
   @override
-  State<PushToDeleteCheckScreen> createState() => _PushToDeleteCheckScreenState();
+  State<PushToDeleteCheckScreen> createState() =>
+      _PushToDeleteCheckScreenState();
 }
 
 class _PushToDeleteCheckScreenState extends State<PushToDeleteCheckScreen> {

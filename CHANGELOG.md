@@ -1,3 +1,7 @@
+## 0.0.4
+
+* Refactoring code.
+
 ## 0.0.3
 
 * Refactoring code.
