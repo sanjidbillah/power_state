@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:power_state/src/utilities/printer.dart';
 
 abstract class _ListenAble {
   /// Register a closure to be called when the object notifies its listeners.
@@ -27,12 +28,14 @@ class PowerController extends _ListenAble {
   @override
   void addListener(int key, VoidCallback listener) {
     _listeners[key] = listener;
+    printer(_listeners);
   }
 
   @override
   void removeListener(int key) {
     _listeners.remove(key);
     _selectors.remove(key);
+    printer(key);
   }
 
   @override
@@ -54,6 +57,7 @@ class PowerController extends _ListenAble {
   @override
   void notifyListeners() {
     if (_listeners.isEmpty) return;
+    printer(_listeners);
     _listeners.forEach(
       (key, value) {
         !_selectors.containsKey(key) ? value.call() : _selectorNotify(value);
