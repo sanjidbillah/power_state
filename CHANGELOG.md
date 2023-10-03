@@ -1,3 +1,8 @@
+## 1.0.0
+
+* Fixed bug.
+
+
 ## 0.0.3
 
 * Refactoring code.

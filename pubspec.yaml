@@ -1,6 +1,6 @@
 name: power_state
 description: A flutter state management solution with dependency injection. You can easily manage your state
-version: 0.0.3
+version: 1.0.0
 homepage: https://github.com/sanjidbillah/power_state
 repository: https://github.com/sanjidbillah/power_state
 
