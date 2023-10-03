@@ -34,6 +34,7 @@ class _Instance {
   // Returns the instance of the dependency that was added.
   T put<T>(T dependency) {
     _store.putIfAbsent(T.toString(), () => _InstanceModel<T>(dependency));
+    printer('🎯 ${T.toString()} controller initiate.');
     return find<T>();
   }
 
@@ -54,11 +55,11 @@ class _Instance {
   bool delete<T>() {
     final controller = T.toString();
     if (!_store.containsKey(controller)) {
-      printer('$controller controller already removed.');
+      printer('💥 $controller controller already removed.');
       return false;
     }
     _store.remove(controller);
-    printer('$controller controller deleted.');
+    printer('🔥 $controller controller deleted.');
     return true;
   }
 }
