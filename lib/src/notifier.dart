@@ -21,8 +21,8 @@ abstract class _ListenAble {
 }
 
 class PowerController extends _ListenAble {
-  final Map _listeners = {};
-  final Map _selectors = {};
+  static final Map _listeners = {};
+  static final Map _selectors = {};
   bool _debugDisposed = false;
   @override
   void addListener(int key, VoidCallback listener) {

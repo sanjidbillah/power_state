@@ -4,15 +4,16 @@ import 'package:power_state/src/utilities/printer.dart';
 class PowerVault {
   // Puts a dependency of type T into the store.
   // Returns the instance of the dependency that was added.
-  static T put<T>(T dependency) => _Instance().put<T>(dependency);
+  static final _Instance __instance = _Instance();
+  static T put<T>(T dependency) => __instance.put<T>(dependency);
 
   // Finds and returns a dependency of type T from the store.
   // Throws an Exception if the dependency is not found.
-  static T find<T>() => _Instance().find<T>();
+  static T find<T>() => __instance.find<T>();
 
   // Deletes a dependency of type T from the store.
   // Returns true if the dependency was successfully deleted, false if it was not found.
-  static bool delete<T>() => _Instance().delete<T>();
+  static bool delete<T>() => __instance.delete<T>();
 }
 
 // This class is responsible for managing the actual store of dependencies.
@@ -33,6 +34,7 @@ class _Instance {
   // Returns the instance of the dependency that was added.
   T put<T>(T dependency) {
     _store.putIfAbsent(T.toString(), () => _InstanceModel<T>(dependency));
+    printer('🎯 ${T.toString()} controller initiate.');
     return find<T>();
   }
 
@@ -53,11 +55,11 @@ class _Instance {
   bool delete<T>() {
     final controller = T.toString();
     if (!_store.containsKey(controller)) {
-      printer('$controller controller already removed.');
+      printer('💥 $controller controller already removed.');
       return false;
     }
     _store.remove(controller);
-    printer('$controller controller deleted.');
+    printer('🔥 $controller controller deleted.');
     return true;
   }
 }
