@@ -56,7 +56,9 @@ class PowerController extends _ListenAble {
     if (_listeners.isEmpty) return;
     _listeners.forEach(
       (key, value) {
-        !_selectors.containsKey(key) ? value.call() : _selectorNotify(value);
+        !_selectors.containsKey(key)
+            ? value.call()
+            : _selectorNotify(key, value);
       },
     );
   }
@@ -78,20 +80,14 @@ class PowerController extends _ListenAble {
     return true;
   }
 
-  _selectorNotify(dynamic state) {
-    _selectors.forEach(
-      (k, v) {
-        v['currentValue'] = v['selector'].call();
+  _selectorNotify(key, dynamic state) {
+    final v = _selectors[key];
+    v['currentValue'] = v['selector'].call();
 
-        if (v['currentValue'] != v['prevValue']) {
-          v['prevValue'] = v['currentValue'];
-          state.call();
-          return;
-        } else {
-          return;
-        }
-      },
-    );
+    if (v['currentValue'] != v['prevValue']) {
+      v['prevValue'] = v['currentValue'];
+      state.call();
+    }
   }
 
   dispose() {
