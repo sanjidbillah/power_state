@@ -1,3 +1,7 @@
+## 1.0.2
+
+* Fixed selector bug.
+
 ## 1.0.0
 
 * Fixed bug.
