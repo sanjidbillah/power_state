@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Clear method added.
+
 ## 1.0.2
 
 * Fixed selector bug.
