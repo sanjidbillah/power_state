@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
 class Home extends StatelessWidget {
   // Create an instance of the CounterController and store it in PowerVault
   final CounterController controller = PowerVault.put(CounterController());
+  final CounterController2 controller2 = PowerVault.put(CounterController2());
 
   Home({Key? key}) : super(key: key);
 
@@ -41,20 +42,9 @@ class Home extends StatelessWidget {
                 return Text(countController.count.toString());
               },
             ),
-
-            // Example of using a PowerSelector widget with a mutable selector
-            PowerSelector<CounterController>(
-              selector: () => controller.selectorValue,
+            PowerBuilder<CounterController2>(
               builder: (countController) {
-                return Text(countController.selectorValue.toString());
-              },
-            ),
-
-            // Example of using a PowerSelector widget with an immutable selector
-            PowerSelector<CounterController>(
-              selector: () => 2,
-              builder: (countController) {
-                return Text(countController.selectorValue.toString());
+                return Text(countController.count.toString());
               },
             ),
 
@@ -62,7 +52,14 @@ class Home extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 controller.increment();
-                controller.update();
+                // controller.update();
+              },
+              child: const Text("Update widgets"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                controller2.increment();
+                // controller.update();
               },
               child: const Text("Update widgets"),
             ),
@@ -106,14 +103,6 @@ class SecondScreen extends StatelessWidget {
               },
             ),
 
-            // Selector with mutable object
-            PowerSelector<CounterController>(
-              selector: () => controller.selectorValue,
-              builder: (countController) {
-                return Text(countController.selectorValue.toString());
-              },
-            ),
-
             ElevatedButton(
               onPressed: () {
                 // Update the count.
@@ -144,8 +133,7 @@ class PushToDeleteCheckScreen extends StatefulWidget {
   const PushToDeleteCheckScreen({Key? key}) : super(key: key);
 
   @override
-  State<PushToDeleteCheckScreen> createState() =>
-      _PushToDeleteCheckScreenState();
+  State<PushToDeleteCheckScreen> createState() => _PushToDeleteCheckScreenState();
 }
 
 class _PushToDeleteCheckScreenState extends State<PushToDeleteCheckScreen> {

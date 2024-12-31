@@ -40,9 +40,7 @@ class _State<T extends PowerController> extends State<PowerBuilder<T>> {
 // Find the [PowerController] instance of type T.
     controller = PowerVault.find<T>();
 // Add a listener to the [PowerController] instance with a unique identifier to be notified of changes.
-    controller.addListener(_uniqueKey, () {
-      if (mounted) _valueChanged();
-    });
+    controller.addListener(_uniqueKey, NotifyInfo(_valueChanged, controller.runtimeType));
   }
 
   /// Rebuilds the widget subtree defined by the builder function when there is a change in the application state.
@@ -52,7 +50,7 @@ class _State<T extends PowerController> extends State<PowerBuilder<T>> {
 
   @override
   void dispose() {
-// Remove the listener added in initState() to avoid memory leaks.
+    // Remove the listener added in initState() to avoid memory leaks.
     controller.removeListener(_uniqueKey);
     super.dispose();
   }
