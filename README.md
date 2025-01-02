@@ -68,6 +68,14 @@ If you no longer need a controller, you can delete it from PowerVault using the 
 PowerVault.delete<CounterController>();
 ```  
 
+## Deleting all controller
+
+If you no longer need controllerr, you can delete it from PowerVault using the PowerVault.clear() method. Here's an example of clear controllers:
+
+```
+PowerVault.clear();
+```  
+
 Check out the example app to see Power State in action.
 
 

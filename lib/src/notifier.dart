@@ -19,14 +19,14 @@ abstract class _ListenAble {
 
 class NotifyInfo {
   final VoidCallback listener;
-  final Type notifierName;
+  final Type notifierType;
   dynamic currentValue;
   dynamic prevValue;
   Object Function()? selector;
 
   NotifyInfo(
     this.listener,
-    this.notifierName, {
+    this.notifierType, {
     this.currentValue,
     this.prevValue,
     this.selector,
@@ -58,7 +58,7 @@ class PowerController extends _ListenAble {
 
     for (final entry in _listeners.entries) {
       final value = entry.value;
-      if (runtimeType == value.notifierName) {
+      if (runtimeType == value.notifierType) {
         if (value.selector == null) {
           value.listener.call();
         } else {
