@@ -112,11 +112,30 @@ void main() {
     PowerVault.delete<TestController>();
 
     // Create a new instance of TestController and expect its state to be reset
-    final TestController controller3 =
-        PowerVault.put<TestController>(TestController());
+    final TestController controller3 = PowerVault.put<TestController>(TestController());
     expect(controller3.counter, 1);
 
     // Remove the second instance of TestController from PowerVault
     PowerVault.delete<TestController>();
+  });
+  test('Controller clear test', () {
+    // Create an instance of TestController and add it to PowerVault
+    final TestController controller = PowerVault.put(TestController());
+
+    // Expect the initial value of the controller's state
+    expect(controller.counter, 1);
+
+    // Call increment on the controller and expect the new value of the counter
+    controller.increment();
+    expect(controller.counter, 2);
+
+    // Create another instance of TestController and expect it to have the same state as the previous instance
+    final TestController controller2 = PowerVault.put(TestController());
+    expect(controller2.counter, 2);
+
+    // Remove the first instance of TestController from PowerVault
+    PowerVault.clear();
+    final TestController controller3 = PowerVault.put(TestController());
+    expect(controller3.counter, 1);
   });
 }

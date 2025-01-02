@@ -35,7 +35,7 @@ class NotifyInfo {
 
 class PowerController extends _ListenAble {
   static final Map<dynamic, NotifyInfo> _listeners = {};
-  bool _debugDisposed = false;
+
   @override
   void addListener(int key, NotifyInfo notifyInfo) {
     _listeners[key] = notifyInfo;
@@ -70,32 +70,6 @@ class PowerController extends _ListenAble {
         }
       }
     }
-  }
-
-  // This is static and not an instance method because too many people try to
-  // implement ChangeNotifier instead of extending it (and so it is too breaking
-  // to add a method, especially for debug).
-  static bool debugAssertNotDisposed(PowerController notifier) {
-    assert(() {
-      if (notifier._debugDisposed) {
-        throw Exception(
-          'A ${notifier.runtimeType} was used after being disposed.\n'
-          'Once you have called dispose() on a ${notifier.runtimeType}, it '
-          'can no longer be used.',
-        );
-      }
-      return true;
-    }());
-    return true;
-  }
-
-  dispose() {
-    assert(PowerController.debugAssertNotDisposed(this));
-    assert(() {
-      _debugDisposed = true;
-      return true;
-    }());
-    _listeners.clear();
   }
 
   get lisenerLength => _listeners.length;
