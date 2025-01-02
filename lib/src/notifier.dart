@@ -56,7 +56,7 @@ class PowerController extends _ListenAble {
 
       if (runtimeType == value.notifierName) {
         rebuildCount++;
-        printer("Count Rebuild: $rebuildCount");
+        printer("Count Rebuild: $rebuildCount Source: $runtimeType");
         value.listener.call();
       }
     }
