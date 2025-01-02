@@ -1,3 +1,7 @@
+## 1.0.4
+
+* Improved performance.
+
 ## 1.0.3
 
 * Clear method added.

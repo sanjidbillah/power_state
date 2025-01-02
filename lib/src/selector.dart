@@ -32,11 +32,14 @@ class _State<T extends PowerController> extends State<PowerSelector<T>> {
     // Find the controller instance from the PowerVault.
     controller = PowerVault.find<T>();
     // Add this widget instance as a listener to the controller.
-    controller.addListener(_uniqueKey, () {
-      if (mounted) _valueChanged();
-    });
-    // Add the selector function to the controller instance.
-    controller.addSelector(_uniqueKey, widget.selector);
+    controller.addListener(
+      _uniqueKey,
+      NotifyInfo(
+        _valueChanged,
+        controller.runtimeType,
+        selector: widget.selector,
+      ),
+    );
   }
 
   // Called when the value of the controller changes.

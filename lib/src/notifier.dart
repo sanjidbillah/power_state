@@ -2,10 +2,7 @@ import 'package:flutter/foundation.dart';
 
 abstract class _ListenAble {
   /// Register a closure to be called when the object notifies its listeners.
-  void addListener(int key, VoidCallback listener);
-
-  /// Register a closure to be called when the object notifies its listeners.
-  void addSelector(int key, Function dependency);
+  void addListener(int key, NotifyInfo notifyInfo);
 
   /// Remove a previously registered closure from the list of closures that the
   /// object notifies.
@@ -20,29 +17,33 @@ abstract class _ListenAble {
   void notifyListeners();
 }
 
+class NotifyInfo {
+  final VoidCallback listener;
+  final Type notifierType;
+  dynamic currentValue;
+  dynamic prevValue;
+  Object Function()? selector;
+
+  NotifyInfo(
+    this.listener,
+    this.notifierType, {
+    this.currentValue,
+    this.prevValue,
+    this.selector,
+  });
+}
+
 class PowerController extends _ListenAble {
-  static final Map _listeners = {};
-  static final Map _selectors = {};
+  static final Map<dynamic, NotifyInfo> _listeners = {};
   bool _debugDisposed = false;
   @override
-  void addListener(int key, VoidCallback listener) {
-    _listeners[key] = listener;
+  void addListener(int key, NotifyInfo notifyInfo) {
+    _listeners[key] = notifyInfo;
   }
 
   @override
   void removeListener(int key) {
     _listeners.remove(key);
-    _selectors.remove(key);
-  }
-
-  @override
-  addSelector(int key, Function dependency) {
-    dynamic value = dependency.call();
-    _selectors[key] = {
-      'currentValue': value,
-      'prevValue': value,
-      'selector': dependency,
-    };
   }
 
   /// Call all the registered listeners.
@@ -54,13 +55,21 @@ class PowerController extends _ListenAble {
   @override
   void notifyListeners() {
     if (_listeners.isEmpty) return;
-    _listeners.forEach(
-      (key, value) {
-        !_selectors.containsKey(key)
-            ? value.call()
-            : _selectorNotify(key, value);
-      },
-    );
+
+    for (final entry in _listeners.entries) {
+      final value = entry.value;
+      if (runtimeType == value.notifierType) {
+        if (value.selector == null) {
+          value.listener.call();
+        } else {
+          value.currentValue = value.selector?.call();
+          if (value.currentValue != value.prevValue) {
+            value.prevValue = value.currentValue;
+            value.listener.call();
+          }
+        }
+      }
+    }
   }
 
   // This is static and not an instance method because too many people try to
@@ -78,16 +87,6 @@ class PowerController extends _ListenAble {
       return true;
     }());
     return true;
-  }
-
-  _selectorNotify(key, dynamic state) {
-    final v = _selectors[key];
-    v['currentValue'] = v['selector'].call();
-
-    if (v['currentValue'] != v['prevValue']) {
-      v['prevValue'] = v['currentValue'];
-      state.call();
-    }
   }
 
   dispose() {
