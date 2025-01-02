@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:power_state/src/utilities/printer.dart';
 
 abstract class _ListenAble {
   /// Register a closure to be called when the object notifies its listeners.
@@ -21,11 +20,17 @@ abstract class _ListenAble {
 class NotifyInfo {
   final VoidCallback listener;
   final Type notifierName;
+  dynamic currentValue;
+  dynamic prevValue;
+  Object Function()? selector;
 
   NotifyInfo(
     this.listener,
-    this.notifierName,
-  );
+    this.notifierName, {
+    this.currentValue,
+    this.prevValue,
+    this.selector,
+  });
 }
 
 class PowerController extends _ListenAble {
@@ -50,14 +55,19 @@ class PowerController extends _ListenAble {
   @override
   void notifyListeners() {
     if (_listeners.isEmpty) return;
-    int rebuildCount = 0;
+
     for (final entry in _listeners.entries) {
       final value = entry.value;
-
       if (runtimeType == value.notifierName) {
-        rebuildCount++;
-        printer("Count Rebuild: $rebuildCount Source: $runtimeType");
-        value.listener.call();
+        if (value.selector == null) {
+          value.listener.call();
+        } else {
+          value.currentValue = value.selector?.call();
+          if (value.currentValue != value.prevValue) {
+            value.prevValue = value.currentValue;
+            value.listener.call();
+          }
+        }
       }
     }
   }

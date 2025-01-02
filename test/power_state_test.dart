@@ -41,6 +41,58 @@ void main() {
     },
   );
 
+  testWidgets(
+    'Selector rebuild check with fixed value',
+    (WidgetTester tester) async {
+      final TestController controller = PowerVault.put(TestController());
+      // Starts out at the initial value
+      await tester.pumpWidget(MaterialApp(
+        home: Material(
+          child: PowerSelector<TestController>(
+            // Provide a fixed value for the selector
+            selector: () => 2,
+            builder: (testController) => Text(
+              testController.selectorValue.toString(),
+            ),
+          ),
+        ),
+      ));
+
+      // Call updateSelectorValue on the controller, which should rebuild the PowerSelector widget
+      controller.updateSelctorValue();
+
+      // Expect to find the initial value of the selector in the widget tree
+      expect(find.text('1'), findsOneWidget);
+      PowerVault.delete<TestController>();
+    },
+  );
+
+  testWidgets(
+    'Selector rebuild check with dynamic value',
+    (WidgetTester tester) async {
+      final TestController controller = PowerVault.put(TestController());
+      // Starts out at the initial value
+      await tester.pumpWidget(MaterialApp(
+        home: Material(
+          child: PowerSelector<TestController>(
+            // Use the controller's selectorValue as the selector
+            selector: () => controller.selectorValue,
+            builder: (testController) => Text(
+              testController.selectorValue.toString(),
+            ),
+          ),
+        ),
+      ));
+
+      // Call updateSelectorValue on the controller, which should rebuild the PowerSelector widget
+      controller.updateSelctorValue();
+
+      // Expect to find the initial value of the selector in the widget tree
+      expect(find.text('1'), findsOneWidget);
+      PowerVault.delete<TestController>();
+    },
+  );
+
   test('Controller lifeCycle', () {
     // Create an instance of TestController and add it to PowerVault
     final TestController controller = PowerVault.put(TestController());
@@ -60,7 +112,8 @@ void main() {
     PowerVault.delete<TestController>();
 
     // Create a new instance of TestController and expect its state to be reset
-    final TestController controller3 = PowerVault.put<TestController>(TestController());
+    final TestController controller3 =
+        PowerVault.put<TestController>(TestController());
     expect(controller3.counter, 1);
 
     // Remove the second instance of TestController from PowerVault
