@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:power_state/src/utilities/printer.dart';
 
 abstract class _ListenAble {
   /// Register a closure to be called when the object notifies its listeners.
@@ -49,13 +50,14 @@ class PowerController extends _ListenAble {
   @override
   void notifyListeners() {
     if (_listeners.isEmpty) return;
-
+    int rebuildCount = 0;
     for (final entry in _listeners.entries) {
       final value = entry.value;
 
       if (runtimeType == value.notifierName) {
+        rebuildCount++;
+        printer("Count Rebuild: $rebuildCount");
         value.listener.call();
-        break;
       }
     }
   }
